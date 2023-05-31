@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <title>Dish Recommendations</title>
+    <style>
+        /* Add your custom styling here */
+        /* For example: */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+        }
+
+        .dish {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+
+        .dish h3 {
+            color: #666;
+        }
+
+        .dish p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter Dish Name</h1>
+    <form method="POST" action="http://localhost:5000/api/dishes">
+        <input type="text" name="dish_name" placeholder="Enter dish name">
+        <br><br>
+        <input type="submit" value="Submit">
+    </form>
+    <h1>Recommended Dishes</h1>
+    {% if result %}
+        {% if 'dishes_with_lowest_biases' in result %}
+            <h2>Default Recommendations</h2>
+            {% for dish in result['dishes_with_lowest_biases'] %}
+                <div class="dish">
+                    <h3>{{ dish['name'] }}</h3>
+                    <p>Nutrition: {{ dish['nutrition'] }}</p>
+                </div>
+            {% endfor %}
+        {% elif 'Default Recommendations' in result %}
+            <h2>Default Recommendations</h2>
+            {% for dish in result['Default Recommendations'] %}
+                <div class="dish">
+                    <h3>{{ dish['name'] }}</h3>
+                    <p>Nutrition: {{ dish['nutrition'] }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No dishes found for the given query.</p>
+        {% endif %}
+    {% else %}
+        <p>No results to display.</p>
+    {% endif %}
+</body>
+</html>
